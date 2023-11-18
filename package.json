@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "devStart": "nodemon server.js",
-    "build": "netlify-lambda build express"
+    "build": "netlify-lambda build /"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
