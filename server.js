@@ -27,9 +27,9 @@ app.use(cookieParser());
 app.use("/.netlify/functions/server", router);
 app.use(bodyParser.json());
 app.use("/", require("./routes/root.js"), router);
-app.use("/auth", require("./routes/authRoutes.js"), router);
-app.use("/users", require("./routes/userRoutes.js"), router);
-app.use("/todos", require("./routes/todoRoutes.js"), router);
+app.use("/auth", router, require("./routes/authRoutes.js"));
+app.use("/users", router, require("./routes/userRoutes.js"));
+app.use("/todos", router, require("./routes/todoRoutes.js"));
 
 app.use(errorHandler);
 
