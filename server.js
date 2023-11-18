@@ -32,7 +32,11 @@ app.use("/users", require("./routes/userRoutes.js"));
 app.use("/todos", require("./routes/todoRoutes.js"));
 
 app.use(errorHandler);
-
+router.get("/", (req, res) => {
+  res.writeHead(200, { "Content-Type": "text/html" });
+  res.write("<h1>Hello from Express.js!</h1>");
+  res.end();
+});
 mongoose.connection.once("open", () => {
   console.log("Connected to MongoDB");
   app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
