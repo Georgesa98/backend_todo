@@ -26,17 +26,13 @@ app.use(cookieParser());
 // app.use("/", express.static(path.join(__dirname, "public"))); // Uncomment this if you want to use css files for html in "Views"
 app.use("/.netlify/functions/server", router);
 app.use(bodyParser.json());
-app.use("/", require("./routes/root.js"));
-app.use("/auth", require("./routes/authRoutes.js"));
-app.use("/users", require("./routes/userRoutes.js"));
-app.use("/todos", require("./routes/todoRoutes.js"));
+app.use("/", require("./routes/root.js"), router);
+app.use("/auth", require("./routes/authRoutes.js"), router);
+app.use("/users", require("./routes/userRoutes.js"), router);
+app.use("/todos", require("./routes/todoRoutes.js"), router);
 
 app.use(errorHandler);
-router.get("/", (req, res) => {
-  res.writeHead(200, { "Content-Type": "text/html" });
-  res.write("<h1>Hello from Express.js!</h1>");
-  res.end();
-});
+
 mongoose.connection.once("open", () => {
   console.log("Connected to MongoDB");
   app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
