@@ -26,10 +26,11 @@ app.use(cookieParser());
 // app.use("/", express.static(path.join(__dirname, "public"))); // Uncomment this if you want to use css files for html in "Views"
 app.use("/.netlify/functions/server", router);
 app.use(bodyParser.json());
-app.use("/", require("./routes/root.js"), router);
-app.use("/auth", router, require("./routes/authRoutes.js"));
-app.use("/users", router, require("./routes/userRoutes.js"));
-app.use("/todos", router, require("./routes/todoRoutes.js"));
+app.use("/api/", router);
+app.use("/api/", require("./routes/root.js"), router);
+app.use("/api/auth", require("./routes/authRoutes.js"));
+app.use("/api/users", require("./routes/userRoutes.js"));
+app.use("/api/todos", require("./routes/todoRoutes.js"));
 
 app.use(errorHandler);
 
