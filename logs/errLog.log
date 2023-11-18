@@ -1,0 +1,2 @@
+20231110	14:56:10	1c86ea20-13f4-4c40-a05d-322ca11cca7e	Error: secretOrPrivateKey must have a value	POST	/auth	undefined
+20231110	15:10:06	a0d9aa06-a9fd-4ece-8cac-78ce15b1c11f	SyntaxError: Unexpected token } in JSON at position 64	GET	/auth/refresh	undefined
