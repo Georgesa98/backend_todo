@@ -4,7 +4,7 @@ const User = require("../models/User.js");
 const getAllTodos = async (req, res) => {
   const todos = await Todo.find().select().lean();
   if (!todos?.length) {
-    return res.status(400).json({ message: "No Todos found" });
+    return res.status(200).json({ message: "No Todos found" });
   }
   res.status(200).json(todos);
 };
