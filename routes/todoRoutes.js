@@ -4,8 +4,9 @@ const {
   addNewTodo,
   updateTodo,
   deleteTodo,
-} = require("../controllers/todoController.js");
-const { verifyJWT } = require("../middleware/verifyJWT.js");
+  getAllTodosInDate,
+} = require("../controllers/todoController.cjs");
+const { verifyJWT } = require("../middleware/verifyJWT.cjs");
 const router = express.Router();
 
 router.use(verifyJWT);
@@ -16,5 +17,7 @@ router
   .post(addNewTodo)
   .patch(updateTodo)
   .delete(deleteTodo);
+
+router.route("/:date").get(getAllTodosInDate);
 
 module.exports = router;

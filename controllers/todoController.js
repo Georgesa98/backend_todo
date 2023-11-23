@@ -1,17 +1,31 @@
-const Todo = require("../models/Todo.js");
-const User = require("../models/User.js");
+const Todo = require("../models/Todo.cjs");
+const User = require("../models/User.cjs");
 
 const getAllTodos = async (req, res) => {
   const todos = await Todo.find().select().lean();
   if (!todos?.length) {
     return res.status(200).json({ message: "No Todos found" });
   }
-  res.status(200).json(todos);
+  const todosWithUser = await Promise.all(
+    todos.map(async (todo) => {
+      const user = await User.findById(todo.user).lean().exec();
+      return { ...todo, firstName: user.firstName };
+    })
+  );
+  res.status(200).json(todosWithUser);
+};
+
+const getAllTodosInDate = async (req, res) => {
+  const date = req.params.date;
+  if (!date) return res.status(400).json({ message: "No date received " });
+  const todo = await Todo.find({ deadline: date }).lean().exec();
+  if (!todo?.length) return res.status(200).json({ message: "No todos found" });
+  return res.status(200).json(todo);
 };
 
 const addNewTodo = async (req, res) => {
-  const { user, title, text } = req.body;
-  if (!user || !title || !text) {
+  const { user, title, text, deadline } = req.body;
+  if (!user || !title || !text || !deadline) {
     return res.status(400).json({ message: "All fields are required" });
   }
   const duplicate = await Todo.findOne({ title })
@@ -23,7 +37,7 @@ const addNewTodo = async (req, res) => {
       .status(409)
       .json({ message: "Todo with the same title already exists" });
   }
-  const newTodo = { user, title, text };
+  const newTodo = { user, title, text, deadline };
   const todo = await Todo.create(newTodo);
   if (todo) {
     res
@@ -35,9 +49,16 @@ const addNewTodo = async (req, res) => {
 };
 
 const updateTodo = async (req, res) => {
-  const { id, user, title, text, completed } = req.body;
+  const { id, user, title, text, completed, deadline } = req.body;
 
-  if (!title || !user || !text || !completed || typeof completed !== Boolean) {
+  if (
+    !title ||
+    !user ||
+    !text ||
+    !completed ||
+    typeof completed !== Boolean ||
+    !deadline
+  ) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
@@ -58,6 +79,7 @@ const updateTodo = async (req, res) => {
   todo.title = title;
   todo.text = text;
   todo.completed = completed;
+  todo.deadline = deadline;
 
   const updatedTodo = todo.save();
   res.json({ message: `Todo with the title ${updatedTodo.title} updated` });
@@ -81,4 +103,10 @@ const deleteTodo = async (req, res) => {
   res.json(reply);
 };
 
-module.exports = { getAllTodos, addNewTodo, updateTodo, deleteTodo };
+module.exports = {
+  getAllTodos,
+  getAllTodosInDate,
+  addNewTodo,
+  updateTodo,
+  deleteTodo,
+};

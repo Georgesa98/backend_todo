@@ -19,6 +19,10 @@ const todoSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    deadline: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,
