@@ -1,5 +1,5 @@
-const Todo = require("../models/Todo.cjs");
-const User = require("../models/User.cjs");
+const Todo = require("../models/Todo.js");
+const User = require("../models/User.js");
 
 const getAllTodos = async (req, res) => {
   const todos = await Todo.find().select().lean();

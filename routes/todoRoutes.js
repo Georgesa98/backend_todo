@@ -5,8 +5,8 @@ const {
   updateTodo,
   deleteTodo,
   getAllTodosInDate,
-} = require("../controllers/todoController.cjs");
-const { verifyJWT } = require("../middleware/verifyJWT.cjs");
+} = require("../controllers/todoController.js");
+const { verifyJWT } = require("../middleware/verifyJWT.js");
 const router = express.Router();
 
 router.use(verifyJWT);
