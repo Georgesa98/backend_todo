@@ -51,14 +51,7 @@ const addNewTodo = async (req, res) => {
 const updateTodo = async (req, res) => {
   const { id, user, title, text, completed, deadline } = req.body;
 
-  if (
-    !title ||
-    !user ||
-    !text ||
-    !completed ||
-    typeof completed !== Boolean ||
-    !deadline
-  ) {
+  if (!title || !user || !text || !completed || !deadline) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
